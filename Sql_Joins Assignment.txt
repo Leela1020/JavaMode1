@@ -1,0 +1,155 @@
+Joins
+1.Write a query in SQL to display the first name, last name, department
+number, and department name for each employee
+---------------------------------------------------------------------------
+Ans:select * from employeetable1;
++-------------+------------+-----------+--------+----------------+---------------+
+| EMPLOYEE_ID | FIRST_NAME | last_name | SALARY | COMMISSION_PCT | DEPARTMENT_ID |
++-------------+------------+-----------+--------+----------------+---------------+
+|         100 | STEVEN     | King      |  24000 |           0.10 |            90 |
+|         101 | NEENA      | Kochhar   |   1700 |           0.10 |            90 |
+|         102 | LEX        | Dehaan    |  17000 |           0.10 |            90 |
+|         103 | ALEXANDER  | Hunold    |   9000 |           0.10 |            60 |
+|         104 | BRUCE      | Ernst     |   6000 |           0.10 |            60 |
+|         105 | DAVID      | Austin    |   4800 |           0.10 |            60 |
+|         106 | VALLI      | Patabal   |   4200 |           0.10 |            60 |
+|         107 | DIANA      | Lorentz   |  12008 |           0.10 |           110 |
+|         205 | SHELLEY    | Higgins   |   8300 |           0.10 |           110 |
+|         206 | WILLIAM    | Gietz     |   8300 |           0.10 |           110 |
++-------------+------------+-----------+--------+----------------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from departments_table;
++---------------+------------------+------------+-------------+
+| DEPARTMENT_ID | DEPARTMENT_NAME  | MANAGER_ID | LOCATION_ID |
++---------------+------------------+------------+-------------+
+|            10 | ADMINISTRATION   |        200 |        1700 |
+|            20 | MARKETING        |        201 |        1800 |
+|            30 | PURCHASING       |        114 |        1700 |
+|            40 | HUMAN RESORCES   |        204 |        2400 |
+|            50 | SHIPPING         |         11 |        1500 |
+|            60 | IT               |        103 |       14000 |
+|            70 | PUBLIC RELATIONS |        204 |        2700 |
+|            80 | SALES            |        145 |        2500 |
+|            90 | EXECUTIVE        |        100 |        1700 |
+|           100 | FINANCE          |        108 |        1700 |
+|           110 | ACCOUNTING       |        205 |        1700 |
++---------------+------------------+------------+-------------+
+11 rows in set (0.05 sec)
+
+SELECT E.first_name , E.last_name ,
+    ->        E.department_id , D.department_name
+    ->         FROM employeetable1 E
+    ->          JOIN departments_table  D
+    ->           ON E.department_id = D.department_id;
++------------+-----------+---------------+-----------------+
+| first_name | last_name | department_id | department_name |
++------------+-----------+---------------+-----------------+
+| VALLI      | Patabal   |            60 | IT              |
+| DAVID      | Austin    |            60 | IT              |
+| BRUCE      | Ernst     |            60 | IT              |
+| ALEXANDER  | Hunold    |            60 | IT              |
+| LEX        | Dehaan    |            90 | EXECUTIVE       |
+| NEENA      | Kochhar   |            90 | EXECUTIVE       |
+| STEVEN     | King      |            90 | EXECUTIVE       |
+| WILLIAM    | Gietz     |           110 | ACCOUNTING      |
+| SHELLEY    | Higgins   |           110 | ACCOUNTING      |
+| DIANA      | Lorentz   |           110 | ACCOUNTING      |
++------------+-----------+---------------+-----------------+
+10 rows in set (0.00 sec)
+
+
+2.Write a query in SQL to display the first name, last name, department
+number and department name, for all employees for departments 80 or
+40
+----------------------------------------------------------------------------
+Ans:SELECT E.first_name , E.last_name ,
+    ->        E.department_id ,  D.department_name
+    ->          FROM employeetable1 E
+    ->          JOIN departments_table D
+    ->           ON E.department_id = D.department_id
+    ->           AND E.department_id IN (80 , 40);
+Empty set (0.00 sec)
+
+
+
+3.Write a query in SQL to display the first name of all employees
+including the first name of their manager
+--------------------------------------------------------------------------
+ANS:select e.first_name,m.first_name from employeetable1 e join departments_table d 
+on (e.department_id=d.department_id) join employeetable1 m on (m.employee_id=d.manager_id);
++------------+------------+
+| first_name | first_name |
++------------+------------+
+| STEVEN     | STEVEN     |
+| NEENA      | STEVEN     |
+| LEX        | STEVEN     |
+| ALEXANDER  | ALEXANDER  |
+| BRUCE      | ALEXANDER  |
+| DAVID      | ALEXANDER  |
+| VALLI      | ALEXANDER  |
+| DIANA      | SHELLEY    |
+| SHELLEY    | SHELLEY    |
+| WILLIAM    | SHELLEY    |
++------------+------------+
+10 rows in set (0.00 sec)
+
+
+
+4.Write a query in SQL to display all departments including those where
+does not have any employee
+------------------------------------------------------------------------------
+Ans:SELECT E.first_name, E.last_name, E.department_id, D.department_name
+    ->   FROM employeetable1 E
+    -> RIGHT OUTER JOIN departments_table D
+    -> ON E.department_id = D.department_id;
++------------+-----------+---------------+------------------+
+| first_name | last_name | department_id | department_name  |
++------------+-----------+---------------+------------------+
+| NULL       | NULL      |          NULL | ADMINISTRATION   |
+| NULL       | NULL      |          NULL | MARKETING        |
+| NULL       | NULL      |          NULL | PURCHASING       |
+| NULL       | NULL      |          NULL | HUMAN RESORCES   |
+| NULL       | NULL      |          NULL | SHIPPING         |
+| VALLI      | Patabal   |            60 | IT               |
+| DAVID      | Austin    |            60 | IT               |
+| BRUCE      | Ernst     |            60 | IT               |
+| ALEXANDER  | Hunold    |            60 | IT               |
+| NULL       | NULL      |          NULL | PUBLIC RELATIONS |
+| NULL       | NULL      |          NULL | SALES            |
+| LEX        | Dehaan    |            90 | EXECUTIVE        |
+| NEENA      | Kochhar   |            90 | EXECUTIVE        |
+| STEVEN     | King      |            90 | EXECUTIVE        |
+| NULL       | NULL      |          NULL | FINANCE          |
+| WILLIAM    | Gietz     |           110 | ACCOUNTING       |
+| SHELLEY    | Higgins   |           110 | ACCOUNTING       |
+| DIANA      | Lorentz   |           110 | ACCOUNTING       |
++------------+-----------+---------------+------------------+
+18 rows in set (0.00 sec)
+
+
+
+
+5.Write a query in SQL to display the first name, last name, department
+number and name, for all employees who have or have not any
+department
+------------------------------------------------------------------------------
+Ans: SELECT E.first_name, E.last_name, E.department_id, D.department_name
+    ->   FROM employeetable1 E
+    -> LEFT OUTER JOIN departments_table D
+    -> ON E.department_id = D.department_id;
++------------+-----------+---------------+-----------------+
+| first_name | last_name | department_id | department_name |
++------------+-----------+---------------+-----------------+
+| STEVEN     | King      |            90 | EXECUTIVE       |
+| NEENA      | Kochhar   |            90 | EXECUTIVE       |
+| LEX        | Dehaan    |            90 | EXECUTIVE       |
+| ALEXANDER  | Hunold    |            60 | IT              |
+| BRUCE      | Ernst     |            60 | IT              |
+| DAVID      | Austin    |            60 | IT              |
+| VALLI      | Patabal   |            60 | IT              |
+| DIANA      | Lorentz   |           110 | ACCOUNTING      |
+| SHELLEY    | Higgins   |           110 | ACCOUNTING      |
+| WILLIAM    | Gietz     |           110 | ACCOUNTING      |
++------------+-----------+---------------+-----------------+
+10 rows in set (0.00 sec)
