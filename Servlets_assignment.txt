@@ -1,0 +1,912 @@
+/* Servlet assignment
+1) Write Servlet application to print current date & time?
+Ref : use simple Date object
+*/
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/CurrentDateTime")
+public class CurrentDateTime extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+       
+   
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    PrintWriter out=response.getWriter();
+    java.util.Date date=new java.util.Date();
+    out.println("<h2>"+"CurrentDateandTime: "+date.toString()+"</h2>");
+    
+    
+    }
+		
+		
+}
+
+
+
+
+/* 2) Write a servlet application to establish communication between html and servlet page using hyperlink.
+Ref : <a href = "http://localhost:8080/ServletApp/anchortag">check</a>
+*/
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/ServletUsingHyperlink")
+public class ServletUsingHyperlink extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out=response.getWriter();
+        out.println("<h4 style='color:yellow'>Welcome</h4>");
+    }
+
+		
+	}
+
+
+/*
+3) Write a servlet that refreshes the browser every second and current time will be changed automatically.
+Ref : GregorianCalendar , response header
+*/
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/CurrentDateTime")
+public class CurrentDateTime extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+       
+   
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    PrintWriter out=response.getWriter();
+    java.util.Date date=new java.util.Date();
+    out.println("<h2>"+"CurrentDateandTime: "+date.toString()+"</h2>");
+    
+    
+    }
+		
+		
+	}
+
+
+/*
+4) Write a Servlet application to count the total number of visits on the website.
+*/
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/CountNoOfVisits")
+public class CountNoOfVisits extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	   private int iHitCounter;
+
+	   
+
+	    public void init() throws ServletException {
+	        iHitCounter = 0;
+	    }
+	
+
+	    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	        PrintWriter out = response.getWriter();
+
+	 
+
+	        out.println("You are visitor number: " + (++iHitCounter));
+
+	
+	}
+
+}
+
+
+/* 5) Write a Servlet program that accepts the age and name and displays if the user is eligible for voting or not.
+*/
+
+package com.servlet;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+@WebServlet("/VotingEligibility")
+public class VotingEligibility extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        String name = request.getParameter("name");
+        int age = Integer.parseInt(request.getParameter("age"));
+        if (age >= 18) {
+            out.println("<font color='green' size='5'>" + name + " you are eligible to vote</font>");
+        } else
+            out.println("<font color='red' size='5'>" + name + " you are not eligible to vote</font>");
+
+        out.println("<br><br><a href= 'Voting.html'>Home</a>");
+    }
+}
+
+Voting.html---
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+          <form action= "VotingEligibility" method="post">
+             
+                    <table>
+                         <tr><td>Name</td><td><input type="text" name="name"></td></tr>
+                         <tr><td>Age</td><td><input type="text" name="age"></td></tr>
+                         <tr><td></td><td><input type = "submit" value="check voting eligibility"></td></tr>
+                    </table>
+              
+          </form>
+</body>
+
+//6) Write an application to demonstrate the session tracking in Servlet with following details
+
+SessionTracking.java
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Date;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@WebServlet("/SessionTracking")
+public class SessionTracking extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession(true);
+		Date createTime = new Date(session.getCreationTime());
+		Date lastAccessTime = new Date(session.getLastAccessedTime());
+		String title = "Welcome Back to my website";
+		Integer visitCount = new Integer(0);
+		String visitCountKey = new String("visitCount");
+		String userIDKey = new String("userID");
+		String userID = new String("Surendra");
+		if (session.isNew()) {
+			title = "Welcome to my website";
+			session.setAttribute(userIDKey, userID);
+		} else {
+			visitCount = (Integer) session.getAttribute(visitCountKey);
+			visitCount = visitCount + 1;
+			userID = (String) session.getAttribute(userIDKey);
+		}
+		session.setAttribute(visitCountKey, visitCount);
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
+		out.println(
+				docType + "<html>\n" + "<head><title>" + title + "</title></head>\n" + "<body bgcolor=\"#e5f7c0\">\n"
+						+ "<h1 align=\"center\">" + title + "</h1>\n" + "<h2 align=\"center\">Session Infomation</h2>\n"
+						+ "<table border=\"1\" align=\"center\">\n" + "<tr bgcolor=\"#eadf8c\">\n"
+						+ "<th>Session info</th><th>value</th></tr>\n" + "<tr>\n" + "  <td>id</td>\n" + "  <td>"
+						+ session.getId() + "</td></tr>\n" + "<tr>\n" + "  <td>Creation Time</td>\n" + "  <td>"
+						+ createTime + "  </td></tr>\n" + "<tr>\n" + "  <td>Time of Last Access</td>\n" + "  <td>"
+						+ lastAccessTime + "  </td></tr>\n" + "<tr>\n" + "  <td>User ID</td>\n" + "  <td>" + userID
+						+ "  </td></tr>\n" + "<tr>\n" + "  <td>Number of visits</td>\n" + "  <td>" + visitCount
+						+ "</td></tr>\n" + "</table>\n" + "</body></html>");
+	}
+}
+
+/*
+7) Write a Servlet application for login page, which is check the username and password. If username and password are matched, display welcome message along with username
+Ref : login.html and LoginServlet . username and password can be hard coded or retrieved from database through service and dao layer?
+*/
+package com.servlet;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class LoginDao7 {
+
+	    public static boolean validate(String name, String password) {
+	        boolean status = false;
+	        try {
+	            Class.forName("com.mysql.cj.jdbc.Driver");
+	            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/practice", "root", "root");
+	            PreparedStatement ps = con.prepareStatement("select * from loginpage where username=? and password=?");
+	            ps.setString(1, name);
+	            ps.setString(2, password);
+	            ResultSet rs = ps.executeQuery();
+	            status = rs.next();
+	        } catch (Exception e) {
+	            System.out.println(e);
+
+	        }
+	        return status;
+	    }
+	}
+	
+package com.servlet;
+
+public class LoginServicePage7 {
+
+    LoginDao7 logindao = new LoginDao7();
+
+    public boolean check(String name, String password) {
+        return logindao.validate(name, password);
+    }
+	
+	
+}
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/LoginServlet7")
+public class LoginServlet7 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+   	
+	 protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+
+	        String name = request.getParameter("name");
+	        String password = request.getParameter("password");
+	        PrintWriter out = response.getWriter();
+	        LoginServicePage7 lsp = new LoginServicePage7();
+	        boolean status = lsp.check(name, password);
+	        if (status == true) {
+	            RequestDispatcher rd = request.getRequestDispatcher("WelcomeServletPage7");
+	            rd.forward(request, response);
+	        } else {
+	            out.println("Invalid Username or password");
+	            RequestDispatcher rd = request.getRequestDispatcher("Login7.html");
+	            rd.include(request, response);
+	        }
+	    }
+	}
+		
+		
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/WelcomeServletPage7")
+public class WelcomeServletPage7 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         
+    String name=request.getParameter("name");
+    PrintWriter out=response.getWriter();
+    out.println("Welcome "+name);
+    }
+    }
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="LoginServlet7">
+Name:<input type="text" name="name"><br>
+Password:<input type="password" name="password"><br>
+<input type="submit" value="login">
+</form>
+</body>
+</html>
+	
+
+
+/*
+8) Develop a registration page in servlet with proper validation and store all records in the database.
+Ref
+· create table registration (registerid int primary key , first_name varchar(20), email varchar(20), mobile number, dob DATE ,gender varchar(6), country varchar (10));
+· INSERT INTO registration (first_name,email, mobile ,dob,gender,country) VALUES('John','john@hcl.com',’9988776655, '2019-03-01',’male’,’India’);
+· a) register.html b) RegisterServlet.java c) web.xml d) RegisterService (interface) e)RegisterServiceImpl f) RegisterDao (interface) g)RegisterDaoImpl h)display.jsp
+*/
+register.html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Registration Servlet</title>
+</head>
+<script>
+function validate()
+{
+    var country=document.getElementById("country").value;
+    document.getElementById("spancountry").innerHTML="";
+    if(country=="---Select---")
+    {
+        document.getElementById("spancountry").innerHTML="Select Country";
+        return false;
+    }
+}
+</script>
+<style>
+h3
+{
+text-align:center;
+}
+</style>
+<body>
+<h3>Registration Form</h3>
+<form action="RegisterServlet8" onsubmit="return validate()"method="post">
+<table style="margin-left:auto;margin-right:auto;background-color:#00EAD3">
+<tr>
+<td>Name</td>
+<td><input type="text" required name="name"></td>
+</tr>
+<tr>
+<td>Password</td>
+<td><input type="password" required name="password"></td>
+</tr>
+<tr>
+<td>Email Id</td>
+<td><input type="email" required name="email"></td>
+</tr>
+<tr>
+<td>Mobile</td>
+<td><input type="tel" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="mobile"></td>
+</tr>
+<tr>
+<td>Date Of Birth</td>
+<td><input type="date" required name="dob"></td>
+</tr>
+<tr>
+<td>Gender</td>
+<td><input type="radio" required name="gen" value="male">Male
+<input type="radio"  required name="gen" value="female">Female</td>
+</tr>
+<tr>
+<td>Country</td>
+<td><select name="country">
+<option>Select a Country</option>
+<option>India</option>
+<option>America</option>
+<option>Australia</option>
+<option>South Africa</option>
+</select></td>
+<td><span id="spancountry"></span></td>
+</tr>
+<tr>
+<td><input type="reset"></td>
+<td><input type="submit"></td>
+</table>
+</form>
+</body>
+</html> 
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/RegisterServlet8")
+public class RegisterServlet8 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String username = request.getParameter("name");
+		String emailid = request.getParameter("email");
+		String mobile = request.getParameter("mobile");
+		String dob = request.getParameter("dob");
+		String gender = request.getParameter("gen");
+		String country = request.getParameter("country");
+		PrintWriter out = response.getWriter();
+		RegisterPojo rp = new RegisterPojo(username, emailid, mobile, dob, gender, country);
+		RegisterServiceImpl rsr = new RegisterServiceImpl();
+		int row = rsr.add(rp);
+		out.println(row + "Row added successfully to database");
+	}
+
+}
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <!--<servlet>
+    <servlet-name>RetrieveDataConfig</servlet-name>
+    <servlet-class>com.servlets_asgnmt.RetrieveDataConfig</servlet-class>
+    <init-param>
+      <param-name>n1</param-name>
+      <param-value>100</param-value>
+    </init-param>
+    <init-param>
+      <param-name>n2</param-name>
+      <param-value>300</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RetrieveDataConfig</servlet-name>
+    <url-pattern>/RetrieveDataConfig</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>Login.html</welcome-file>
+  </welcome-file-list>-->
+  <context-param>
+    <param-name>Url</param-name>
+    <param-value>jdbc:mysql://localhost:3306/sample</param-value>
+  </context-param>
+  <context-param>
+    <param-name>username</param-name>
+    <param-value>root</param-value>
+  </context-param>
+  <context-param>
+    <param-name>password</param-name>
+    <param-value>root</param-value>
+  </context-param>
+</web-app>
+
+package com.servlet;
+public interface RegisterService {
+    public int add(RegisterPojo rp);
+}
+
+package com.servlets;
+public class RegisterServiceImpl implements RegisterService{
+    @Override
+       public int add(RegisterPojo rp) {
+           RegisterDaoImpl rd=new RegisterDaoImpl();
+           int row=rd.addMethod(rp);
+           return row;
+       }
+}
+
+
+package com.servlets;
+public interface RegisterDao {
+    public int addMethod(RegisterPojo rp);
+}
+
+
+package com.servlets;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class RegisterDaoImpl implements RegisterDao {
+	int row = 0;
+
+	public int addMethod(RegisterPojo rp) {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sample", "root", "root");
+			PreparedStatement ps = con.prepareStatement(
+					"insert into registration1(first_name,email,mobile_number,dob,gender,country) values(?,?,?,?,?,?)");
+			ps.setString(1, rp.getUsername());
+			ps.setString(2, rp.getEmailid());
+			ps.setString(3, rp.getMobile());
+			ps.setString(4, rp.getDob());
+			ps.setString(5, rp.getGender());
+			ps.setString(6, rp.getCountry());
+			row = ps.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return row;
+	}
+}
+
+
+10) Types of Session Tracking in Servlet
+There are four main ways to manage the session in java web-application:
+a. URL rewriting
+b. Cookies
+c. Hidden form fields
+d. HTTPS
+Implement the above individually in servlet 
+
+All are Completed in class session.
+
+/*
+11) Create 3 links: login, logout and Register in a web application and from any page 
+if the logout has clicked disable all the session related object and by default hold the session object 
+for max of 15 min in an application.
+*/
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h2>Choose any Option</h2>
+<a href="Login.html">Login</a><br> 
+<a href="LogoutServlet">Logout</a><br> 
+<a href="Register.html">Register</a> 
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="LoginServlet" method="post">  
+Name:<input type="text" name="name"><br>  
+Password:<input type="password" name="password"><br>  
+<input type="submit" value="login">  
+</form>  
+</body>
+</html>
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		String name = request.getParameter("name");
+		String password = request.getParameter("password");
+		HttpSession session = request.getSession();
+
+		if ((password.equals("admin")) && (name.equals("admin"))) {
+			session.setMaxInactiveInterval(900*60);
+			out.print("Welcome, " + name);
+			session.setAttribute("name", name);
+			session.setAttribute("password", password);
+			request.getRequestDispatcher("Index.html").include(request, response);
+		} else {
+			session.setMaxInactiveInterval(900*60);
+			out.print("\n  Invalid username or password");
+			request.getRequestDispatcher("Login.html").include(request, response);
+		}
+
+	}
+}
+
+
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+@WebServlet("/LogoutServlet")
+public class LogoutServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 response.setContentType("text/html");  
+         PrintWriter out=response.getWriter();  
+         HttpSession session=request.getSession(); 
+         session.setMaxInactiveInterval(900*60);
+         String name=request.getParameter("name");  
+         String password=request.getParameter("password");
+         out.print("You are successfully logged out!");
+         session.invalidate();   
+         out.println("<br><a href=''>Login</a><br/>");
+         out.println("<a href=''>Register</a>");
+         out.close(); 
+         }
+
+
+         }
+
+
+
+
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@WebServlet("/ProfileServlet")
+public class ProfileServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		request.getRequestDispatcher("Index.html").include(request, response);
+
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			String name = (String) session.getAttribute("name");
+
+			out.println("<br>Hello, " + name + " Welcome to Profile");
+		} else {
+			out.println("<br>Please login first");
+			request.getRequestDispatcher("Login.html").include(request, response);
+		}
+		session.setMaxInactiveInterval(900*60);
+		out.close();
+
+	}
+}
+
+
+
+/* 12) How to Retrieve Data from ServletConfig Interface Object.
+
+Click on the button “Click Here”.
+
+It should fetch the details of N1 and N2 from Web.xml and it display the output given below.
+*/
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.*;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/RetrieveDataConfig")
+public class RetrieveDataConfig extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	
+	public RetrieveDataConfig() {
+		super();
+		
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		String num1 = getInitParameter("n1");
+		String num2 = getInitParameter("n2");
+		out.println("Number1 value is:" + num1 + "<br>");
+		out.println("Number2 value is:" + num2 + "<br>");
+		int sum = Integer.parseInt(num1) + Integer.parseInt(num2);
+		out.println("Result  is:" + sum);
+	}
+
+}
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <!--<servlet>
+    <servlet-name>RetrieveDataConfig</servlet-name>
+    <servlet-class>com.servlets_asgnmt.RetrieveDataConfig</servlet-class>
+    <init-param>
+      <param-name>n1</param-name>
+      <param-value>100</param-value>
+    </init-param>
+    <init-param>
+      <param-name>n2</param-name>
+      <param-value>300</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RetrieveDataConfig</servlet-name>
+    <url-pattern>/RetrieveDataConfig</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>Login.html</welcome-file>
+  </welcome-file-list>-->
+  <context-param>
+    <param-name>Url</param-name>
+    <param-value>jdbc:mysql://localhost:3306/sample</param-value>
+  </context-param>
+  <context-param>
+    <param-name>username</param-name>
+    <param-value>root</param-value>
+  </context-param>
+  <context-param>
+    <param-name>password</param-name>
+    <param-value>root</param-value>
+  </context-param>
+</web-app>
+
+/*
+13) How to Retrieve Data from ServletContext Interface Object.
+
+Create a servlet application to connect with database .
+To establish the connection get URL,Username,password from web.xml 
+and it should be common to all the servlet.
+
+*/
+
+
+package com.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/DBConnectionServlet")
+public class DBConnectionServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out=response.getWriter();
+        ServletContext context=getServletContext();
+        String name=request.getParameter("name");
+        String userpassword=request.getParameter("password");
+        String url=context.getInitParameter("Url");
+        String username=context.getInitParameter("username");
+        String password=context.getInitParameter("password");
+        try
+        {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con=DriverManager.getConnection(url,username,password);
+            out.println("Connection connected");
+        }
+             catch(Exception e)
+        {
+            out.println(e);
+        }
+
+
+
+    }
+
+
+
+
+}
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <!--<servlet>
+    <servlet-name>RetrieveDataConfig</servlet-name>
+    <servlet-class>com.servlets_asgnmt.RetrieveDataConfig</servlet-class>
+    <init-param>
+      <param-name>n1</param-name>
+      <param-value>100</param-value>
+    </init-param>
+    <init-param>
+      <param-name>n2</param-name>
+      <param-value>300</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RetrieveDataConfig</servlet-name>
+    <url-pattern>/RetrieveDataConfig</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>Login.html</welcome-file>
+  </welcome-file-list>-->
+  <context-param>
+    <param-name>Url</param-name>
+    <param-value>jdbc:mysql://localhost:3306/sample</param-value>
+  </context-param>
+  <context-param>
+    <param-name>username</param-name>
+    <param-value>root</param-value>
+  </context-param>
+  <context-param>
+    <param-name>password</param-name>
+    <param-value>root</param-value>
+  </context-param>
+</web-app>
+
+/*
+14)Create filter application for authentication
+ 
+We are validating the username and password using filter if valid user then it will show
+*/
+Completed in class.
