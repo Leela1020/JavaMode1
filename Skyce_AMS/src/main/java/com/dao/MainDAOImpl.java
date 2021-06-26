@@ -56,7 +56,6 @@ public class MainDAOImpl implements MainDAOIntf {
 	{
 		@SuppressWarnings("unchecked")
 		List<Plane> ls=sessionFactory.openSession().createQuery("from Plane").list();
-		//List<Plane> ls=sessionFactory.openSession().createQuery("from Plane").list();
 		return ls;
 	}
 	

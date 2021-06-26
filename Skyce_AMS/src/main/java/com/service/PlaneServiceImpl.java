@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.dao.MainDAOIntf;
 import com.model.Plane;
 @Service
-@Qualifier
+//@Qualifier
 public class PlaneServiceImpl implements PlaneServiceIntf{
 
 	@Autowired

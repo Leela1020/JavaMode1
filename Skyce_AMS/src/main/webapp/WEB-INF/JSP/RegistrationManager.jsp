@@ -191,7 +191,7 @@ a {
 		</div>
 		<form:form id='userform' action="#" modelAttribute="user">
 			<div class="main_content">
-				<h1 align="center" class="header">Admin Registration</h1>
+				<h1 align="center" class="header">Manager Registration</h1>
 				<div class="column" style="background-color: white;">
 					<div class="form_wrap">
 						<div class="input_grp">
